@@ -15,7 +15,7 @@ const visualizarContas = (req, res) => {
 
 const criarConta = (req, res) => {
 
-    const { nome, cpf, data_nascimento, telefone, email, senha } = req.query;
+    const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
     if (!nome || !cpf || !data_nascimento || !telefone || !email || !senha) {
         return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios!' });
@@ -51,7 +51,7 @@ const atualizarConta = (req, res) => {
 
     const { numeroConta } = req.params;
 
-    const { nome, cpf, data_nascimento, telefone, email, senha } = req.query;
+    const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
     if (!nome || !cpf || !data_nascimento || !telefone || !email || !senha) {
         return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios!' });
@@ -67,7 +67,7 @@ const atualizarConta = (req, res) => {
         return res.status(400).json({ mensagem: 'CPF já cadastrado em outra conta' });
     }
 
-    if (contas.some((conta) => conta.usuario.email === email && c.numero !== Number(numeroConta))) {
+    if (contas.some((conta) => conta.usuario.email === email && conta.numero !== Number(numeroConta))) {
         return res.status(400).json({ mensagem: 'E-mail já cadastrado em outra conta' });
     }
 
@@ -107,7 +107,7 @@ const excluirConta = (req, res) => {
 }
 
 const depositar = (req, res) => {
-    const { numero_conta, valor } = req.query
+    const { numero_conta, valor } = req.body
 
     if (!numero_conta || !valor) {
         return res.status(403).json({ mensagem: "O número da conta e o valor são obrigatórios!" })
@@ -141,7 +141,7 @@ const depositar = (req, res) => {
 };
 
 const sacar = (req, res) => {
-    const { numero_conta, valor, senha } = req.query;
+    const { numero_conta, valor, senha } = req.body;
 
     if (!numero_conta || !valor || !senha) {
         return res.status(400).json({ mensagem: 'Você deve informar o número da conta, valor e senha para prosseguir com a transação!' });
@@ -175,7 +175,7 @@ const sacar = (req, res) => {
 };
 
 const transferir = (req, res) => {
-    const { numero_conta_origem, numero_conta_destino, senha, valor } = req.query
+    const { numero_conta_origem, numero_conta_destino, senha, valor } = req.body
 
     if (!numero_conta_origem || !numero_conta_destino || !senha || !valor) {
         return res.status(400).json({ mensagem: 'Todos os campos são obrigatórios!' })
@@ -217,7 +217,7 @@ const transferir = (req, res) => {
 const consultarSaldo = (req, res) => {
     const { numero_conta } = req.query;
 
-    const contaSolicitada = contas.find((conta) => conta.numero === Number(numero_conta))
+    const contaSolicitada = contas.find((conta) => conta.numero === Number(numero_conta));
 
     res.status(200).json({ saldo: contaSolicitada.saldo });
 };
@@ -245,36 +245,6 @@ const emitirExtrato = (req, res) => {
 
 
 
-const vizualizarDepositos = (req, res) => {
-
-    if (depositos.length === 0) {
-        res.status(404).json({ mensagem: 'Não há depósitos registrados neste Banco!' })
-    }
-
-    res.status(200).json(depositos)
-}
-
-const vizualizarSaques = (req, res) => {
-
-    if (saques.length === 0) {
-        res.status(404).json({ mensagem: 'Não há saques registrados neste Banco!' })
-    }
-
-    res.status(200).json(saques)
-}
-
-const vizualizarTransferencias = (req, res) => {
-
-    if (transferencias.length === 0) {
-        res.status(404).json({ mensagem: 'Não há transfeências registrados neste Banco!' })
-    }
-
-    res.status(200).json(transferencias)
-}
-
-
-
-
 
 
 
@@ -288,7 +258,4 @@ module.exports = {
     transferir,
     consultarSaldo,
     emitirExtrato,
-    vizualizarDepositos,
-    vizualizarSaques,
-    vizualizarTransferencias
 }

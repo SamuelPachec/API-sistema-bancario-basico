@@ -23,9 +23,9 @@ Perceba que há uma senha passada na Url que necessário para o gerenciamento da
 ![Alt text](image.png)
 
 
-Ao criar uma conta certifique-se que todos os campos foram passados no corpo (body). Caso contrário, retornará um erro.
+Ao criar uma conta certifique-se que todos os campos foram passados no corpo (body) em formato JSON. Caso contrário, retornará um erro.
 
-![Alt text](image-1.png)
+![Alt text](image-4.png)
 
 
     Você pode pegar como exemplo a listagem das funções que foram passadas anteriormente no **Insomnia**.
